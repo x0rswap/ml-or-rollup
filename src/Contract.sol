@@ -17,8 +17,8 @@ contract EmitERC721 {
   /* About validators */
   uint public constant fee = 1 ether; // Fee to be validator
   uint public constant delay = 7 days; // Changes can be contested for 7days
-  mapping(address => bool) is_validator;
-  mapping(address => uint) last_block_proposed; // Needed to withdraw if you're a validator
+  mapping(address => bool) public is_validator;
+  mapping(address => uint) public last_block_proposed; // Needed to withdraw if you're a validator
 
   function become_validator() payable external {
     require(!(is_validator[msg.sender]));
@@ -39,8 +39,8 @@ contract EmitERC721 {
 
   /* Neural nets */
   // Constants for the neural net
-  uint public constant N = 28;
-  uint public constant M = 10;
+  uint public constant N = 1; //28;
+  uint public constant M = 1; //10;
   // The neural network. Starts from a NxN picture, and outputs a M vector
   // Here very simple example, the operation done is prediction() just below
   struct NeuralNet {
@@ -48,7 +48,7 @@ contract EmitERC721 {
     uint[M] b;
   }
   // Never used, but here is what a prediction looks like
-  function prediction(NeuralNet calldata n, uint32[N][N] calldata data) external returns(uint[M] memory) {
+  function prediction(NeuralNet calldata n, uint[N][N] calldata data) external returns(uint[M] memory) {
     uint[M] memory answer = n.b;
     for (uint i_answer = 0; i_answer < M; i_answer++) {
       for (uint i_data = 0; i_data < N; i_data++) {
